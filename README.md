@@ -21,6 +21,11 @@ instalacion de los roles
    role apache:
     
         ansible-playbook -i hosts ansible001/apache.yml
+        
+        
+ ![apache](https://user-images.githubusercontent.com/21178320/31434321-a426bd08-ae41-11e7-9689-c3df466c6c2f.png)
+ 
+ 
    role mysql:
     
          ansible-playbook -i hosts ansible001/mysql.yml
