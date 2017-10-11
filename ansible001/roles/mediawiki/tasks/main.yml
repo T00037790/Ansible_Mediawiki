@@ -17,7 +17,7 @@
 
 - name: Añadiendo configuraciones de MediaWiki
   template:
-    src: ConfigFile.php.j2
+    src: LocalSettings.php.j2
     dest: "{{ media_config_file }}"
   notify:
     - restart apache
