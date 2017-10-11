@@ -37,3 +37,6 @@ instalacion de los roles
    role mediawiki:
    
         ansible-playbook -i hosts ansible001/mediawiki.yml
+        
+  
+ ![mediawiki](https://user-images.githubusercontent.com/21178320/31434406-ef019352-ae41-11e7-85db-708946c66985.png)
