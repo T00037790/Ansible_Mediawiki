@@ -1,2 +1,23 @@
 ---
 # tasks file for mediawiki
+- name: Instalacion de git
+  apt:
+    name: git
+    state: present
+
+- name: descarga de mediawiki
+  unarchive:
+      src: "{{ mediawiki_url }}"
+      dest: /opt/
+      list_files: yes
+      remote_src: yes
+
+- name: Incluyendo mediawiki a apache
+  command: cp -R -u {{ filename_dir }} {{ media_web_dir }}
+
+- name: Añadiendo configuraciones de MediaWiki
+  template:
+    src: ConfigFile.php.j2
+    dest: "{{ media_config_file }}"
+  notify:
+    - restart apache

@@ -1,4 +1,18 @@
 ---
+- name: asignando contraseña de usuario root para mysql
+  debconf:
+   name: mysql-server
+   question: mysql-server/root_password
+   value: "{{ mysql_root_password }}"
+   vtype: password
+
+- name: asignando contraseña root para mysql
+  debconf:
+   name: mysql-server
+   question: mysql-server/root_password_again
+   value: "{{ mysql_root_password }}"
+   vtype: password
+
 - name: Instalacion de mysql y dependencias
   apt:
    pkg: "{{ item }}"
@@ -7,22 +21,21 @@
    - mysql-server
    - python-mysqldb
 
+- name: MySQL | Set debconf vars
+  action: raw echo mysql-server mysql-server/root_password PwdProof2017- $mysql_root_password | /usr/bin/debconf-set-selections
+  tags: mysql
+
+- name: MySQL | Set debconf vars
+  action: raw echo mysql-server mysql-server/root_password_again PwdProof2017- $mysql_root_password | /usr/bin/debconf-set-selections
+  tags: mysql
+
+- name: install .my.cnf with credentials
+  template: src=my.cnf.j2 dest=/root/.my.cnf
+            mode=0400
+  tags: my_cnf
+
 - name: definiendo directorio de mysql
   command: usermod -d /var/lib/mysql/ mysql
-
-- name: asignando contraseña de usuario root para mysql
-  debconf:
-   name: mysql-server
-   question: mysql-server/root_password
-   value: "{{ usuario_root_mysql }}"
-   vtype: password
-
-- name: asignando contraseña root para mysql
-  debconf:
-   name: mysql-server
-   question: mysql-server/root_password_again
-   value: "{{ contraseña_root_de_mysql }}"
-   vtype: password
 
 - name: Añadiendo configuracion y realizando backup de la original
   template:
@@ -40,24 +53,13 @@
 - name: Respuesta de inicio
   debug: var=start
 
-- name: Removiendo todas las cuentas anonimas
-  mysql_user:
-    login_user: "{{ usuario_root_mysql }}"
-    login_password: "{{ contraseña_root_de_mysql }}"
-    login_unix_socket: "{{ ruta_sock_mysql }}"
-    name: ''
-    host_all: yes
-    state: absent
-  notify:
-   - restart mysql
-
 - name: Creando usuario mediawiki  con permisos de conexion externa
   mysql_user:
-    login_user: "{{ usuario_root_mysql }}"
-    login_password: "{{ contraseña_root_de_mysql }}"
-    name: "{{ musuario_mediawiki }}"
+    login_user: "{{ mysql_root_usr }}"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_media_usr }}"
     host: "{{ item }}"
-    password: "{{ contraseña_mediawiki_mysql }}"
+    password: "{{ mysql_media_pwd }}"
     priv: "*.*:ALL,GRANT"
     state: present
   with_items:
@@ -69,8 +71,8 @@
 
 - name: mediawiki DB creation with name mediawiki_db
   mysql_db:
-    login_user: "{{ usuario_mediawikir }}"
-    login_password: "{{ contraseña_mediawiki_mysql }}"
+    login_user: "{{ mysql_media_usr }}"
+    login_password: "{{ mysql_media_pwd }}"
     name: mediawiki_db
     encoding: utf8
     state: present

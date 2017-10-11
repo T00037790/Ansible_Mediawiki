@@ -1,7 +1,8 @@
 ---
 # vars file for mysql
-ruta_sock_mysql: /var/run/mysqld/mysqld.sock
-contraseña_mediawiki_mysql: Mediadb2017-
+mysql_root_password: PwdProof2017-
+mysql_root_usr: root
+mysql_sock_path: /var/run/mysqld/mysqld.sock
+mysql_media_usr: mediaW
 usuario_root_mysql: mysqluserroot
-usuario_mediawiki: mediawikiUsuario
-contraseña_root_de_mysql: Ans1bl3My591
+mysql_media_pwd: Mediadb2017-
