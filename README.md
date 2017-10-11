@@ -11,14 +11,14 @@ Para la instalacion de mediawiki, ejecute los siguientes comandos
 
 instalacion de los roles
 
-role apache:
-    role apache:
+
+   role apache:
     
         ansible-playbook -i hosts ansible001/apache.yml
-    role mysql:
+   role mysql:
     
          ansible-playbook -i hosts ansible001/mysql.yml
     
-    role mediawiki:
+   role mediawiki:
    
         ansible-playbook -i hosts ansible001/mediawiki.yml
