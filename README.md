@@ -1,2 +1,2 @@
 # Ansible_Mediawiki
-Instalación de Mediawiki en su última versión en un Docker usando Ansible
+Instalación de Mediawiki en su última versión en un contenedor docker usando Ansible
