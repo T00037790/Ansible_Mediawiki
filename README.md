@@ -1,6 +1,12 @@
 # Ansible_Mediawiki
 Instalación de Mediawiki en su última versión en un contenedor docker usando Ansible
 
+
+## Diseño de infraestructura
+
+![mediawiki 1](https://user-images.githubusercontent.com/21178320/31247930-baa90d2e-a9d7-11e7-83a1-b5bc1c2068b5.png)
+
+
 Para la instalacion de mediawiki, ejecute los siguientes comandos
     
       docker build -t server:16.04 .
