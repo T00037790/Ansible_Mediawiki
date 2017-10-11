@@ -30,6 +30,10 @@ instalacion de los roles
     
          ansible-playbook -i hosts ansible001/mysql.yml
     
+    
+ ![mysql](https://user-images.githubusercontent.com/21178320/31434373-d219e118-ae41-11e7-8450-a4dd03a4d94e.png)
+ 
+ 
    role mediawiki:
    
         ansible-playbook -i hosts ansible001/mediawiki.yml
