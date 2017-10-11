@@ -1,0 +1,6 @@
+---
+- name: Configuracion de mysql
+  hosts: db
+  remote_user: root
+  roles:
+    - mysql

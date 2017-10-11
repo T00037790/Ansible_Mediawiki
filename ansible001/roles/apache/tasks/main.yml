@@ -1,2 +1,24 @@
 ---
-# tasks file for apache
+- name: instalación de php y requerimientos
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php7.0-json
+    - php7.0-intl
+    - php7.0-xml
+    - php7.0-mysql
+    - php7.0-mbstring
+    - libapache2-mod-php7.0
+
+- name: instalación de apache
+  apt:
+    name: apache2
+    state: present
+
+- name: iniciar servicio de apache
+  service:
+    name: apache2
+    state: started
+    enabled: yes

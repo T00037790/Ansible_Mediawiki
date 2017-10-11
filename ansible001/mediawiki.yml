@@ -1,0 +1,6 @@
+---
+- name: Configuracion de mediawiki
+  hosts: web
+  remote_user: root
+  roles:
+    - mediawiki
