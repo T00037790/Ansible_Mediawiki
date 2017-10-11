@@ -1,2 +1,76 @@
 ---
-# tasks file for mysql
+- name: Instalacion de mysql y dependencias
+  apt:
+   pkg: "{{ item }}"
+   state: installed
+  with_items:
+   - mysql-server
+   - python-mysqldb
+
+- name: definiendo directorio de mysql
+  command: usermod -d /var/lib/mysql/ mysql
+
+- name: asignando contraseña de usuario root para mysql
+  debconf:
+   name: mysql-server
+   question: mysql-server/root_password
+   value: "{{ usuario_root_mysql }}"
+   vtype: password
+
+- name: asignando contraseña root para mysql
+  debconf:
+   name: mysql-server
+   question: mysql-server/root_password_again
+   value: "{{ contraseña_root_de_mysql }}"
+   vtype: password
+
+- name: Añadiendo configuracion y realizando backup de la original
+  template:
+   src: mysqld.cnf.j2
+   dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+   owner: root
+   group: root
+   mode: 0644
+   backup: yes
+
+- name: Iniciando servicio mysql
+  command: service mysql start
+  register: start
+
+- name: Respuesta de inicio
+  debug: var=start
+
+- name: Removiendo todas las cuentas anonimas
+  mysql_user:
+    login_user: "{{ usuario_root_mysql }}"
+    login_password: "{{ contraseña_root_de_mysql }}"
+    login_unix_socket: "{{ ruta_sock_mysql }}"
+    name: ''
+    host_all: yes
+    state: absent
+  notify:
+   - restart mysql
+
+- name: Creando usuario mediawiki  con permisos de conexion externa
+  mysql_user:
+    login_user: "{{ usuario_root_mysql }}"
+    login_password: "{{ contraseña_root_de_mysql }}"
+    name: "{{ musuario_mediawiki }}"
+    host: "{{ item }}"
+    password: "{{ contraseña_mediawiki_mysql }}"
+    priv: "*.*:ALL,GRANT"
+    state: present
+  with_items:
+   - 127.0.0.1
+   - "localhost"
+   - "%"
+  notify:
+   - restart mysql
+
+- name: mediawiki DB creation with name mediawiki_db
+  mysql_db:
+    login_user: "{{ usuario_mediawikir }}"
+    login_password: "{{ contraseña_mediawiki_mysql }}"
+    name: mediawiki_db
+    encoding: utf8
+    state: present
