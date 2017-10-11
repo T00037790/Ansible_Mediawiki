@@ -1,6 +1,12 @@
 # Ansible_Mediawiki
 Instalación de Mediawiki en su última versión en un contenedor docker usando Ansible
 
+## MediaWiki installation has the following requirements:
+
+    * A web server is required to serve the requested pages to the client browser.
+    * PHP is required to run the software.
+    * A database server is required to store the pages and site data.
+
 
 ## Diseño de infraestructura
 
