@@ -6,5 +6,8 @@ media_config_file: /var/www/html/media/ConfigFile.php
 usuario_mediawiki: mediawikiUsuario
 contraseña_mediawiki_mysql: Mediadb2017-
 mysql_media_db: "mediawiki_db"
+mysql_media_usr: "mediaW"
+mysql_media_pwd: "Mediadb2017-"
 docker_ip_host: 172.17.0.1
 mysql_db_prefix: "media_"
+mysql_media_usr: "mediaW"
